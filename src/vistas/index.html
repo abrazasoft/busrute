@@ -1,0 +1,63 @@
+<form method="POST" action="/busqueda" >
+    <select name="origen" required id="origen">
+        <option value=""></option>
+        <option value="elm">el monte</option>
+        <option value="bpk">baldwin park</option>
+        <option value="pma">pomona</option>
+        <option value="ont">ontario</option>
+        <option value="sys">san ysidro</option>
+        <option value="cbx">cbx tijuana</option>
+        <option value="apt">aeropuerto Tijuana</option>
+    </select>
+    <select name="destino" required id="destino">
+        <option value=""></option>
+        <option value="elm">el monte</option>
+        <option value="bpk">baldwin park</option>
+        <option value="pma">pomona</option>
+        <option value="ont">ontario</option>
+        <option value="sys">san ysidro</option>
+        <option value="cbx">cbx tijuana</option>
+        <option value="apt">aeropuerto Tijuana</option>
+    </select>
+
+
+    <input type="date" required name="fecha" id="fecha">
+
+
+    <button>buscar</button>
+
+
+
+</form>
+
+<div id="tablebody"></div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("form").submit(function (event) {
+            var formData = {
+            origen: $("#origen").val(),
+            destino: $("#destino").val(),
+            fecha: $("#fecha").val(),
+            };
+
+            $.ajax({
+            type: "POST",
+            url: "/busqueda",
+            data: formData,
+            dataType: "json",
+            encode: true,
+            }).done(function (data) {
+            console.log(data);
+            data.forEach(element => {
+                $("#tablebody").append("<tr><td>origen: "+element.origen+"<br>"+element.fechasalida+"</td><td> ____________________ "+element.tiempoviaje+" _______________</td><td> Destino: "+element.destino+" <br> "+element.fechallegada+"</td></tr> <br>");
+            });
+            });
+
+            event.preventDefault();
+        });
+    });
+</script>
